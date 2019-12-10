@@ -25,7 +25,7 @@ function OrderItem({order, onDelete}) {
       setOrder({
         ...orderInfo,
         status: 'completed'
-      })
+      }) 
     })
   }
 
@@ -94,8 +94,8 @@ export default class OrderManage extends Component {
   onDelete = (order) => {
     var idx = this.state.orders.findIndex(it => it.id === order.id)
 
-    this.setState(produce(state => {
-      state.orders.splice(idx, 1)
+    this.setState(produce(this.state, state => {
+      state.order.splice(idx, 1)
     }))
   }
 
@@ -109,7 +109,7 @@ export default class OrderManage extends Component {
               return <OrderItem onDelete={this.onDelete} key={order.id} order={order} />
             })
             :
-            <div>loading...</div>
+            <div>暂无新订单</div>
           }
         </div>
       </div>

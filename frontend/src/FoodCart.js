@@ -1,20 +1,11 @@
-import React, {useState, Suspense, useEffect} from 'react'
-import { useParams } from 'react-router-dom'
-import createFetcher from './create-fetcher'
+import React, {Component, useState} from 'react'
 import PropTypes from 'prop-types'
 import { produce } from 'immer'
 import api from './api'
 import history from './history'
 import { Button } from 'element-react'
-import 'element-theme-default';
-
-var imgStyle = {
-    float: 'left',
-    width: '100px',
-    height: '100px',
-    border: '2px solid',
-}
-
+import 'element-theme-default'
+import io from 'socket.io-client'
 
 
 function MenuItem({food, onUpdate}) {
@@ -40,7 +31,7 @@ function MenuItem({food, onUpdate}) {
         <div>
             <h3>菜品名：{food.name}</h3>
             <div>
-                <img style = {imgStyle} src = {'http://localhost:800/upload/' + food.img} alt={food.name} />
+                <img src = {'http://localhost:800/upload/' + food.img} alt={food.name} />
                 <p>描述：{food.desc}</p>
                 <p>价格：{food.price}</p>
             </div>
@@ -61,68 +52,6 @@ MenuItem.defaultProps = {
     onUpdate: () => {},
 }
 
-var menuFetcher = createFetcher(() => {
-    return api.get('menu/restaurant/1')
-})
-
-function FoodCart() {
-    var params = useParams()
-    var [deskInfo, setDeskInfo] = useState(null)
-    var foods = menuFetcher.read().data
-    var [cart, setCart] = useState([])
-    
-    useEffect(() => {
-        api.get('/deskinfo?did=' + params.did).then(val => {
-          setDeskInfo(val.data)
-    })
-    }, [params.did])
-    console.log(cart)
-    function foodChange(food, amount) {
-        var upDated = produce(cart, cart => {
-            var idx = cart.findIndex(it => it.food.id === food.id)
-            if (idx >= 0) {
-                if(amount === 0) {
-                    cart.splice(idx, 1)
-                }else {
-                    cart[idx].amount = amount
-                }
-            }else {
-                cart.push({
-                    food,
-                    amount,
-                })
-            }
-        })
-        setCart(upDated)
-    }
-    function placeOrder() {
-        api.post(`/restaurant/${params.rid}/desk/${params.did}/order`, {
-            deskName: deskInfo.name,
-            customCount: params.count,
-            totalPrice: calcTotalPrice(cart),
-            foods: cart,
-        }).then(res => {
-            history.push({
-                pathname: `/r/${params.rid}/d/${params.did}/order-success`,
-                state: res.data,
-            })
-        })
-    }
-    return (
-    <div>
-        <div>
-            {
-                foods.map(food => {
-                    return <MenuItem key= {food.id} food={food} onUpdate={foodChange}/>
-                })
-            }
-        </div>
-        <div>
-            <CartStatus foods={cart} onUpdate={foodChange} onPlaceOrder={placeOrder} />
-        </div>
-    </div>
-    )
-}
 
 function calcTotalPrice(cartAry) {
     return cartAry.reduce((total, item) => {
@@ -146,10 +75,142 @@ function CartStatus(props) {
     )
 }
 
-export default () => {
-    return (
-        <Suspense fallback={<div>loading...</div>}>
-            <FoodCart />
-        </Suspense>
-    )
-}
+export default class FoodCart extends Component {
+    constructor(props) {
+      super(props)
+  
+      this.state = {
+        cart: [],
+        foodMenu: [],
+        deskInfo: {},
+      }
+    }
+  
+    componentDidMount() {
+      var params = this.props.match.params
+  
+      api.get('/deskinfo?did=' + params.did).then(val => {
+        this.setState({
+          deskInfo: val.data,
+        })
+      })
+  
+      api.get('/menu/restaurant/1').then(res => {
+        this.setState({
+          foodMenu: res.data,
+        })
+      })
+  
+  
+      this.socket = io({
+        path: '/desk',
+        query: {
+          desk: 'desk:' + params.did
+        }
+      })
+  
+      this.socket.on('connect', () => {
+        console.log('connect on')
+        this.socket.emit('join desk', 'desk:' + params.did)
+      })
+  
+  
+  
+      // 后端发回此桌面已点菜单
+      this.socket.on('cart food', info => {
+        console.log('cart init', info)
+        this.setState(produce(state => {
+          state.cart.push(...info)
+        }))
+      })
+  
+      // 来自同桌其它用户新增的菜单
+      this.socket.on('new food', info => {
+  
+        console.log(info)
+        this.foodChange(info.food, info.amount)
+      })
+  
+      this.socket.on('placeorder success', order => {
+        history.push({
+          pathname: `/r/${params.rid}/d/${params.did}/order-success`,
+          state: order,
+        })
+      })
+    }
+  
+    componentWillUnmount() {
+      this.socket.close()
+    }
+  
+    cartChange = (food, amount) => {
+      var params = this.props.match.params
+      this.socket.emit('new food', {desk: 'desk:' + params.did, food, amount})
+    }
+  
+    foodChange = (food, amount) => {
+      var updated = produce(this.state.cart, cart => {
+        var idx = cart.findIndex(it => it.food.id === food.id)
+  
+        if (idx >= 0) {
+          if (amount === 0) {
+            cart.splice(idx, 1)
+          } else {
+            cart[idx].amount = amount
+          }
+        } else {
+          cart.push({
+            food,
+            amount,
+          })
+        }
+      })
+      this.setState({cart: updated})
+    }
+  
+    placeOrder = () => {
+      console.log('下单')
+      var params = this.props.match.params
+      // {
+      //   deskName:
+      //   customCount:
+      //   totalPrice:
+      //   foods: [{id, amount}, {}, {}]
+      // }
+      console.log(params)
+      api.post(`/restaurant/${params.rid}/desk/${params.did}/order`, {
+        deskName: this.state.deskInfo.name,
+        customCount: params.count,
+        totalPrice: calcTotalPrice(this.state.cart),
+        foods: this.state.cart,
+      }).then(res => {
+        history.push({
+          pathname: `/r/${params.rid}/d/${params.did}/order-success`,
+          state: res.data,
+        })
+      })
+    }
+  
+    render() {
+      return (
+        <div>
+          <div>
+            {
+              this.state.foodMenu.map(food => {
+  
+                var currentAmount = 0
+                var currFoodCartItem = this.state.cart.find(cartItem => cartItem.food.id === food.id)
+                if (currFoodCartItem) {
+                  currentAmount = currFoodCartItem.amount
+                }
+  
+                return <MenuItem key={food.id} food={food} amount={currentAmount} onUpdate={this.cartChange}/>
+              })
+            }
+          </div>
+          <CartStatus foods={this.state.cart} onUpdate={this.cartChange} onPlaceOrder={this.placeOrder}/>
+        </div>
+      )
+    }
+  }
+  
