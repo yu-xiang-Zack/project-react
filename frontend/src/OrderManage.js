@@ -2,13 +2,14 @@ import React, { Component, useState} from 'react'
 import io from 'socket.io-client'
 import api from './api'
 import { produce } from 'immer'
+import userInfoFetcher from './userInfoFetcher'
 
 function OrderItem({order, onDelete}) {
-
+  var info = userInfoFetcher.read().data
   var [orderInfo, setOrder] = useState(order)
 
   function setConfirm() {
-    api.put(`/restaurant/1/order/${order.id}/status`, {
+    api.put(`/restaurant/${info.id}/order/${order.id}/status`, {
       status: 'confirmed'
     }).then(() => {
       setOrder({
@@ -19,7 +20,7 @@ function OrderItem({order, onDelete}) {
   }
 
   function setComplete() {
-    api.put(`/restaurant/1/order/${order.id}/status`, {
+    api.put(`/restaurant/${info.id}/order/${order.id}/status`, {
       status: 'completed'
     }).then(() => {
       setOrder({
@@ -30,7 +31,7 @@ function OrderItem({order, onDelete}) {
   }
 
   function deleteOrder() {
-    api.delete(`/restaurant/1/order/${order.id}`).then(() => {
+    api.delete(`/restaurant/${info.id}/order/${order.id}`).then(() => {
       onDelete(order)
     })
   }
@@ -63,7 +64,7 @@ export default class OrderManage extends Component {
   componentDidMount() {
     var params = this.props.match.params
 
-    this.socket = io({
+    this.socket = io('ws://localhost:800', {
       path: '/restaurant',
       query: {
         restaurant: 'restaurant:' + params.rid
@@ -80,7 +81,7 @@ export default class OrderManage extends Component {
       }))
     })
 
-    api.get('/restaurant/1/order').then(res => {
+    api.get('/restaurant/:rid/order').then(res => {
       this.setState(produce(state => {
         state.orders = res.data
       }))
@@ -95,7 +96,7 @@ export default class OrderManage extends Component {
     var idx = this.state.orders.findIndex(it => it.id === order.id)
 
     this.setState(produce(this.state, state => {
-      state.order.splice(idx, 1)
+      state.orders.splice(idx, 1)
     }))
   }
 

@@ -5,14 +5,7 @@ import OrderManage from './OrderManage'
 import FoodManage from './FoodManage'
 import DeskManage from './DeskManage'
 import api from './api'
-import createFetcher from './create-fetcher'
-import history from './history'
-
-const userInfoFetcher = createFetcher(async() => {
-  return api.get('/userinfo').catch(() => {
-    history.push('./')
-  })
-})
+import userInfoFetcher from './userInfoFetcher'
 
 function RestaurantInfo() {
   var info = userInfoFetcher.read().data

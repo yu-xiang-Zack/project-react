@@ -47,7 +47,6 @@ io.desk.on('connection', socket => {
         amount: info.amount,
       })
     }
-
     io.desk.in(desk).emit('new food', info)
   })
 })

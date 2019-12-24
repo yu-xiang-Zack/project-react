@@ -43,7 +43,7 @@ function AddFood(props) {
       fd.append(key, val)
     }
 
-    api.post('/restaurant/1/food', fd).then(res => {
+    api.post('/restaurant/:rid/food', fd).then(res => {
       history.goBack()
     })
   }
