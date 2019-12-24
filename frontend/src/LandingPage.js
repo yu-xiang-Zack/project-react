@@ -10,7 +10,7 @@ var fetcher = createFetcher((did) => {
 
 function DeskInfo({did}) {
   var info = fetcher.read(did).data
-
+  
   return (
     <div>
       <span>{info.title}</span>

@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useCallback } from 'react'
+import React, { Component, useState } from 'react'
 import io from 'socket.io-client'
 import api from './api'
 import { produce } from 'immer'
@@ -12,9 +12,9 @@ var orderItemStyle = {
 function OrderItem({order, onDelete}) {
 
   var [orderInfo, setOrder] = useState(order)
-
+  console.log(order)
   function setConfirm() {
-    api.put(`/restaurant/1/order/${order.id}/status`, {
+    api.put(`/restaurant/${order.rid}/order/${order.id}/status`, {
       status: 'confirmed'
     }).then(() => {
       setOrder({
@@ -25,7 +25,7 @@ function OrderItem({order, onDelete}) {
   }
 
   function setComplete() {
-    api.put(`/restaurant/1/order/${order.id}/status`, {
+    api.put(`/restaurant/${order.rid}/order/${order.id}/status`, {
       status: 'completed'
     }).then(() => {
       setOrder({
@@ -36,7 +36,7 @@ function OrderItem({order, onDelete}) {
   }
 
   function deleteOrder() {
-    api.delete(`/restaurant/1/order/${order.id}`).then(() => {
+    api.delete(`/restaurant/${order.rid}/order/${order.id}`).then(() => {
       onDelete(order)
     })
   }
@@ -85,8 +85,8 @@ export default class OrderManage extends Component {
         state.orders.unshift(order)
       }))
     })
-
-    api.get('/restaurant/1/order').then(res => {
+    console.log(params)
+    api.get('/restaurant/'+params.rid+'/order').then(res => {
       this.setState(produce(state => {
         state.orders = res.data
       }))

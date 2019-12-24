@@ -1,12 +1,9 @@
-import React, { Component, useState, Suspense, useEffect } from 'react'
-import { withRouter, useHistory, useParams } from 'react-router-dom'
-import createFetcher from './create-fetcher'
+import React, { Component, useState } from 'react'
 import PropTypes from 'prop-types'
 import api from './api'
 import { produce } from 'immer'
 import history from './history'
 import io from 'socket.io-client'
-import { thisExpression } from '@babel/types'
 
 
 var imgStyle = {
@@ -130,8 +127,8 @@ export default class FoodCart extends Component {
         deskInfo: val.data,
       })
     })
-
-    api.get('/menu/restaurant/1').then(res => {
+    console.log(params)
+    api.get('/menu/restaurant/' + params.rid).then(res => {
       this.setState({
         foodMenu: res.data,
       })
@@ -249,78 +246,3 @@ export default class FoodCart extends Component {
     )
   }
 }
-
-/*
-
-function FoodCart(props){
-  var params = useParams()
-
-  var [deskInfo, setDeskInfo] = useState(null)
-
-  var foods = menuFetcher.read().data
-  var [cart, setCart] = useState([])
-
-  useEffect(() => {
-    api.get('/deskinfo?did=' + params.did).then(val => {
-      setDeskInfo(val.data)
-    })
-  }, [])
-
-  function foodChange(food, amount) {
-    var updated = produce(cart, cart => {
-      
-      var idx = cart.findIndex(it => it.food.id === food.id)
-
-      if (idx >= 0) {
-        if (amount === 0) {
-          cart.splice(idx, 1)
-        } else {
-          cart[idx].amount = amount
-        }
-      } else {
-        cart.push({
-          food,
-          amount,
-        })
-      }
-    })
-    setCart(updated)
-  }
-
-  function placeOrder() {
-    console.log('下单')
-    // {
-    //   deskName:
-    //   customCount:
-    //   totalPrice:
-    //   foods: [{id, amount}, {}, {}]
-    // }
-    console.log(params)
-    api.post(`/restaurant/${params.rid}/desk/${params.did}/order`, {
-      deskName: deskInfo.name,
-      customCount: params.count,
-      totalPrice: calcTotalPrice(cart),
-      foods: cart,
-    }).then(res => {
-      history.push({
-        pathname: `/r/${params.rid}/d/${params.did}/order-success`,
-        state: res.data,
-      })
-    })
-  }
-
-  return (
-    <div>
-      <div>
-        {
-          foods.map(food => {
-            return <MenuItem key={food.id} food={food} onUpdate={foodChange}/>
-          })
-        }
-      </div>
-      <CartStatus foods={cart} onUpdate={foodChange} onPlaceOrder={placeOrder}/>
-    </div>
-  )
-}
-
-*/
