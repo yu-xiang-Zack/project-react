@@ -20,7 +20,11 @@ app.use(cors({
   credentials: true,
 }))
 
-app.use(session({secret:'secret'}))
+app.use(session({
+  secret:'secret',
+  esave: false, 
+  saveUninitialized: true,
+}))
 app.use(cookieParser('secret'))
 
 app.use(express.static(__dirname + '/build/'))//处理静态文件请求的中间件

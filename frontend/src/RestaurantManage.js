@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Switch, Link, Route, withRouter } from 'react-router-dom'
 import AddFood from './AddFood'
+import AddDesk from './AddDesk'
 import OrderManage from './OrderManage'
 import FoodManage from './FoodManage'
 import DeskManage from './DeskManage'
@@ -49,6 +50,7 @@ export default withRouter(function(props) {
           <Route path="/restaurant/:rid/manage/food" component={FoodManage}/>
           <Route path="/restaurant/:rid/manage/desk" component={DeskManage}/>
           <Route path="/restaurant/:rid/manage/add-food" component={AddFood}/>
+          <Route path="/restaurant/:rid/manage/add-desk" component={AddDesk}/>
         </Switch>
       </main>
     </div>

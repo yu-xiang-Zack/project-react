@@ -1,15 +1,20 @@
-import React, { Component, useState} from 'react'
+import React, { Component, useState, useEffect, useCallback } from 'react'
 import io from 'socket.io-client'
 import api from './api'
 import { produce } from 'immer'
-import userInfoFetcher from './userInfoFetcher'
+
+var orderItemStyle = {
+  border: '2px solid',
+  margin: '5px',
+  padding: '5px',
+}
 
 function OrderItem({order, onDelete}) {
-  var info = userInfoFetcher.read().data
+
   var [orderInfo, setOrder] = useState(order)
 
   function setConfirm() {
-    api.put(`/restaurant/${info.id}/order/${order.id}/status`, {
+    api.put(`/restaurant/1/order/${order.id}/status`, {
       status: 'confirmed'
     }).then(() => {
       setOrder({
@@ -20,24 +25,24 @@ function OrderItem({order, onDelete}) {
   }
 
   function setComplete() {
-    api.put(`/restaurant/${info.id}/order/${order.id}/status`, {
+    api.put(`/restaurant/1/order/${order.id}/status`, {
       status: 'completed'
     }).then(() => {
       setOrder({
         ...orderInfo,
         status: 'completed'
-      }) 
+      })
     })
   }
 
   function deleteOrder() {
-    api.delete(`/restaurant/${info.id}/order/${order.id}`).then(() => {
+    api.delete(`/restaurant/1/order/${order.id}`).then(() => {
       onDelete(order)
     })
   }
 
   return (
-    <div>
+    <div style={orderItemStyle}>
       <h2>{orderInfo.deskName}</h2>
       <h3>总价格：{orderInfo.totalPrice}</h3>
       <h3>人数：{orderInfo.customCount}</h3>
@@ -81,7 +86,7 @@ export default class OrderManage extends Component {
       }))
     })
 
-    api.get('/restaurant/:rid/order').then(res => {
+    api.get('/restaurant/1/order').then(res => {
       this.setState(produce(state => {
         state.orders = res.data
       }))
@@ -95,7 +100,7 @@ export default class OrderManage extends Component {
   onDelete = (order) => {
     var idx = this.state.orders.findIndex(it => it.id === order.id)
 
-    this.setState(produce(this.state, state => {
+    this.setState(produce(state => {
       state.orders.splice(idx, 1)
     }))
   }
@@ -110,7 +115,7 @@ export default class OrderManage extends Component {
               return <OrderItem onDelete={this.onDelete} key={order.id} order={order} />
             })
             :
-            <div>暂无新订单</div>
+            <div>loading...</div>
           }
         </div>
       </div>
