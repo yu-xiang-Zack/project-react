@@ -105,7 +105,7 @@ function FoodItem({food, onDelete}) {
     } else {
       return (
         <div style={foodInfoStyle}>
-          <img src={'http://localhost:800/upload/' + foodInfo.img} alt={foodInfo.name} style={imgStyle} />
+          <img src={'/upload/' + foodInfo.img} alt={foodInfo.name} style={imgStyle} />
           <p>描述：{foodInfo.desc}</p>
           <p>价格：{foodInfo.price}</p>
           <p>分类：{foodInfo.category ? foodInfo.category : '[暂未分类]'}</p>

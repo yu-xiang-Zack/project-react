@@ -39,7 +39,7 @@ function MenuItem({food, onUpdate, amount}) {
     <div style={menuItemStyle}>
       <h3>{food.name}</h3>
       <div>
-        <img style={imgStyle} src={'http://localhost:800/upload/' + food.img} alt={food.name}/>
+        <img style={imgStyle} src={'/upload/' + food.img} alt={food.name}/>
         <p>{food.desc}</p>
         <p>{food.price}</p>
       </div>
@@ -135,7 +135,7 @@ export default class FoodCart extends Component {
     })
 
 
-    this.socket = io('ws://localhost:800', {
+    this.socket = io({
       path: '/desk',
       query: {
         desk: 'desk:' + params.did

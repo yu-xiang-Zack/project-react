@@ -69,7 +69,7 @@ export default class OrderManage extends Component {
   componentDidMount() {
     var params = this.props.match.params
 
-    this.socket = io('ws://localhost:800', {
+    this.socket = io({
       path: '/restaurant',
       query: {
         restaurant: 'restaurant:' + params.rid
