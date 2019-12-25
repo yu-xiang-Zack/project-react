@@ -31,7 +31,6 @@ function FoodItem({food, onDelete}) {
     img: null,
   })
 
-
   function save() {
     var fd = new FormData()
 
@@ -40,7 +39,7 @@ function FoodItem({food, onDelete}) {
       fd.append(key, val)
     }
 
-    api.put('/restaurant/:rid/food/' + food.id, fd).then((foodInfo) => {
+    api.put(`/restaurant/${food.rid}/food/` + food.id, fd).then((foodInfo) => {
       setIsModify(false)
       setFoodInfo(foodInfo.data)
     })
@@ -68,13 +67,13 @@ function FoodItem({food, onDelete}) {
   }
 
   function deleteFood() {
-    api.delete('/restaurant/:rid/food/' + food.id).then(() => {
+    api.delete(`/restaurant/${food.rid}/food/` + food.id).then(() => {
       onDelete(food.id)
     })
   }
 
   function setOnline() {
-    api.put('/restaurant/:rid/food/' + food.id, {
+    api.put(`/restaurant/${food.rid}/food/` + food.id, {
       ...foodProps,
       status: 'on',
     }).then(res => {
@@ -82,7 +81,7 @@ function FoodItem({food, onDelete}) {
     })
   }
   function setOffline() {
-    api.put('/restaurant/:rid/food/' + food.id, {
+    api.put(`/restaurant/${food.rid}/food/` + food.id, {
       ...foodProps,
       status: 'off',
     }).then(res => {
@@ -139,14 +138,14 @@ function FoodItem({food, onDelete}) {
 
 
 
-export default function FoodManage() {
+export default function FoodManage(props) {
   var [foods, setFoods] = useState([])
-
   useEffect(() => {
-    api.get('/restaurant/:rid/food').then(res => {
+    var rid = props.match.params.rid
+    api.get(`/restaurant/${rid}/food`).then(res => {
       setFoods(res.data)
     })
-  }, [])
+  }, [props])
 
   function onDelete(id) {
     setFoods(foods.filter(it => it.id !== id))

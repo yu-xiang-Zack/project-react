@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import api from './api'
 import history from './history'
 
-function AddDesk() {
+function AddDesk(props) {
   var [deskInfo, setDeskInfo] = useState({
     name: '',
     capacity: '',
@@ -15,10 +15,10 @@ function AddDesk() {
     })
   }
 
-  
   function submit(e) {
     e.preventDefault()
-    api.post('/restaurant/:rid/desk', deskInfo).then(res => {
+    var rid = props.match.params.rid
+    api.post(`/restaurant/${rid}/desk`, deskInfo).then(res => {
       history.goBack()
     })
   }

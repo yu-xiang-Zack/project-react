@@ -11,8 +11,7 @@ function DeskItem({desk, onDelete}) {
     capacity: desk.capacity,
   })
   function save() {
-
-    api.put('/restaurant/:rid/desk/' + desk.id, deskProps).then((deskInfo) => {
+    api.put(`/restaurant/${desk.rid}/desk/` + desk.id, deskProps).then((deskInfo) => {
       setIsModify(false)
       setDeskInfo(deskInfo.data)
     })
@@ -26,7 +25,7 @@ function DeskItem({desk, onDelete}) {
   }
 
   function deletedesk() {
-    api.delete('/restaurant/:rid/desk/' + desk.id).then(() => {
+    api.delete(`/restaurant/${desk.rid}/desk/` + desk.id).then(() => {
       onDelete(desk.id)
     })
   }
@@ -68,14 +67,15 @@ function DeskItem({desk, onDelete}) {
 
 
 
-export default function DeskManage() {
+export default function DeskManage(props) {
   var [desks, setDesks] = useState([])
 
   useEffect(() => {
-    api.get('/restaurant/:rid/desk').then(res => {
+    var rid = props.match.params.rid
+    api.get(`/restaurant/${rid}/desk`).then(res => {
       setDesks(res.data)
     })
-  }, [])
+  }, [props])
 
   function onDelete(id) {
     setDesks(desks.filter(it => it.id !== id))

@@ -85,8 +85,7 @@ export default class OrderManage extends Component {
         state.orders.unshift(order)
       }))
     })
-    console.log(params)
-    api.get('/restaurant/'+params.rid+'/order').then(res => {
+    api.get(`/restaurant/${params.rid}/order`).then(res => {
       this.setState(produce(state => {
         state.orders = res.data
       }))

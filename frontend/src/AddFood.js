@@ -35,15 +35,14 @@ function AddFood(props) {
 
   function submit(e) {
     e.preventDefault()
-
+    var rid = props.match.params.rid
     var fd = new FormData()
     
     for(var key in foodInfo) {
       var val = foodInfo[key]
       fd.append(key, val)
     }
-
-    api.post('/restaurant/:rid/food', fd).then(res => {
+    api.post(`/restaurant/${rid}/food`, fd).then(res => {
       history.goBack()
     })
   }
