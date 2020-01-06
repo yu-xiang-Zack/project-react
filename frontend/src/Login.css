@@ -1,0 +1,87 @@
+@import '~antd/dist/antd.css';
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("/../login.jpg")
+    fixed no-repeat;
+  background-size: cover;
+}
+
+.login-form {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.login-form h2 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+@media (max-width: 600px){
+
+	.login-form{
+		width: 280px;
+	}
+
+  .login-form h2 {
+    font-size: 16px;
+  }
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+
+.login-form input {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  -webkit-font-feature-settings: 'tnum';
+  font-feature-settings: 'tnum';
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 32px;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: rgba(255, 255, 255, 0.9);
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.login-form img {
+  background-color: #ffffffa3;
+  display: none;
+}
+
+.login-form span {
+  color: #ffffff;
+}
+
+.login-form input::selection {
+  color: #fff;
+  background: #1890ff;
+}

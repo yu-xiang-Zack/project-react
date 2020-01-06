@@ -5,7 +5,7 @@ import LandingPage from './LandingPage';
 import FoodCart from './FoodCart';
 import RestaurantManage from './RestaurantManage';
 import Login from './Login';
-import HomePage from './HomePage'
+// import HomePage from './HomePage'
 import history from './history'
 import OrderSuccess from './OrderSuccess'
 import Register from './Register';
@@ -27,13 +27,12 @@ function App() {
   return (
     <Router history={history}>
         <Switch>
-          <Route path="/" exact component={HomePage} />
+          <Route path="/login" exact component={Login} />
           <Route path="/landing/r/:rid/d/:did" component={LandingPage} />
           <Route path="/r/:rid/d/:did/c/:count" component={FoodCart} />
           <Route path="/r/:rid/d/:did/order-success" component={OrderSuccess} />
           <Route path="/register/regist-success" component={RegistSuccess} />
           <Route path="/restaurant/:rid/manage/" component={RestaurantManage} />
-          <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
         </Switch>
     </Router>
