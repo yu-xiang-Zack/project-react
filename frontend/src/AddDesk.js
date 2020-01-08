@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import api from './api'
 import history from './history'
+import {Button, Input} from 'antd'
 
 function AddDesk(props) {
   var [deskInfo, setDeskInfo] = useState({
@@ -22,15 +23,23 @@ function AddDesk(props) {
       history.goBack()
     })
   }
-  
+
+  function backPage() {
+    history.goBack()
+  }
+
 
   return (
-    <div>
+    
+    <div className="itemStyle">
+      <div className="backPage">
+        <Button onClick={backPage}>返回</Button>
+      </div>
       <h2>添加菜品</h2>
-      <form onSubmit={submit}>
-        名称：<input type="text" onChange={change} defaultValue={deskInfo.name} name="name"/><br/>
-        数量：<input type="text" onChange={change} defaultValue={deskInfo.capacity} name="capacity"/><br/>
-        <button>提交</button>
+      <form onSubmit={submit} className="addForm">
+        名称：<p><Input type="text" onChange={change} defaultValue={deskInfo.name} name="name"/><br/></p>
+        数量：<p><Input type="text" onChange={change} defaultValue={deskInfo.capacity} name="capacity"/><br/></p>
+        <Button>提交</Button>
       </form>
     </div>
   )

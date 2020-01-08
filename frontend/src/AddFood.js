@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import api from './api'
 import history from './history'
+import {Input, Button} from 'antd'
 
 function AddFood(props) {
   var [foodInfo, setFoodInfo] = useState({
@@ -46,17 +47,29 @@ function AddFood(props) {
       history.goBack()
     })
   }
+  function backPage() {
+    history.goBack()
+  }
 
   return (
-    <div>
+    <div className="itemStyle">
+      <div className="backPage">
+        <Button onClick={backPage}>返回</Button>
+      </div>
       <h2>添加菜品</h2>
-      <form onSubmit={submit}>
-        名称：<input type="text" onChange={change} defaultValue={foodInfo.name} name="name"/><br/>
-        描述：<input type="text" onChange={change} defaultValue={foodInfo.desc} name="desc"/><br/>
-        价格：<input type="text" onChange={priceChange} defaultValue={foodInfo.price} name="price"/><br/>
-        分类：<input type="text" onChange={change} defaultValue={foodInfo.category} name="category"/><br/>
-        图片：<input type="file" onChange={imgChange} name="img" /><br/>
-        <button>提交</button>
+      <form onSubmit={submit} className="addForm">
+        名称：<p><Input type="text" onChange={change} defaultValue={foodInfo.name} name="name"/></p>
+        描述：<p><Input type="text" onChange={change} defaultValue={foodInfo.desc} name="desc"/></p>
+        价格：<p><Input type="text" onChange={priceChange} defaultValue={foodInfo.price} name="price"/></p>
+        分类：<p><Input type="text" onChange={change} defaultValue={foodInfo.category} name="category"/></p>
+        选择菜品图片：
+        <div className="imgUpload">
+          <label> 
+            点击上传
+            <input hidden type="file" onChange={imgChange} name="img" id="img" />
+          </label>
+        </div>
+        <Button>提交</Button>
       </form>
     </div>
   )

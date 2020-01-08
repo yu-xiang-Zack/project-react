@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { Form, Button } from 'antd';
 import './Login.css'
-import history from './history'
 import api from './api'
 
 export default withRouter(function(props){
@@ -19,7 +18,7 @@ export default withRouter(function(props){
 
     try {
       var res = await api.post('/login', {name, password, captcha})
-      props.history.push(`/restaurant/${res.data.id}/manage/`)
+      props.history.push(`/restaurant/${res.data.id}/manage/order`)
     } catch(e) {
       alert(e.response.data.msg)
     }
@@ -59,7 +58,7 @@ export default withRouter(function(props){
               placeholder="验证码（区分大小写）"
               type="text"
               ref={captchaRef} 
-              onClick={changCaptcha}
+              onFocus={changCaptcha}
             />
             <img src="/api/captcha" alt="captcha" id="captcha"/>
         </Form.Item>

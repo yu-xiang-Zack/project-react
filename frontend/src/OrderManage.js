@@ -2,12 +2,10 @@ import React, { Component, useState } from 'react'
 import io from 'socket.io-client'
 import api from './api'
 import { produce } from 'immer'
+import {Typography, Button} from 'antd'
 
-var orderItemStyle = {
-  border: '2px solid',
-  margin: '5px',
-  padding: '5px',
-}
+const { Title } = Typography
+
 
 function OrderItem({order, onDelete}) {
 
@@ -15,22 +13,22 @@ function OrderItem({order, onDelete}) {
   console.log(order)
   function setConfirm() {
     api.put(`/restaurant/${order.rid}/order/${order.id}/status`, {
-      status: 'confirmed'
+      status: '已确认'
     }).then(() => {
       setOrder({
         ...orderInfo,
-        status: 'confirmed'
+        status: '已确认'
       })
     })
   }
 
   function setComplete() {
     api.put(`/restaurant/${order.rid}/order/${order.id}/status`, {
-      status: 'completed'
+      status: '已完成'
     }).then(() => {
       setOrder({
         ...orderInfo,
-        status: 'completed'
+        status: '已完成'
       })
     })
   }
@@ -42,16 +40,15 @@ function OrderItem({order, onDelete}) {
   }
 
   return (
-    <div style={orderItemStyle}>
-      <h2>{orderInfo.deskName}</h2>
-      <h3>总价格：{orderInfo.totalPrice}</h3>
-      <h3>人数：{orderInfo.customCount}</h3>
-      <h3>订单状态：{orderInfo.status}</h3>
+    <div className="itemStyle">
+      <p>餐桌号：{orderInfo.deskName}</p>
+      <p>总价格：{orderInfo.totalPrice}元</p>
+      <p>用餐人数：{orderInfo.customCount}人</p>
+      <p>订单状态：{orderInfo.status}</p>
       <div>
-        <button>打印</button>
-        <button onClick={setConfirm}>确认</button>
-        <button onClick={setComplete}>完成</button>
-        <button onClick={deleteOrder}>删除</button>
+        <Button onClick={setConfirm}>确认</Button>
+        <Button onClick={setComplete}>完成</Button>
+        <Button onClick={deleteOrder}>删除</Button>
       </div>
     </div>
   )
@@ -107,14 +104,14 @@ export default class OrderManage extends Component {
   render() {
     return (
       <div>
-        <h2>订单管理</h2>
+        <Title level={2}> 订单管理</Title>
         <div>
           {this.state.orders.length > 0 ?
             this.state.orders.map(order => {
               return <OrderItem onDelete={this.onDelete} key={order.id} order={order} />
             })
             :
-            <div>loading...</div>
+            <div>暂无新订单</div>
           }
         </div>
       </div>

@@ -99,14 +99,6 @@ function CartStatus(props) {
   )
 }
 
-// export default () => {
-//   return (
-//     <Suspense fallback={<div>loading...</div>}>
-//       <FoodCart/>
-//     </Suspense>
-//   )
-// }
-
 
 export default class FoodCart extends Component {
   constructor(props) {

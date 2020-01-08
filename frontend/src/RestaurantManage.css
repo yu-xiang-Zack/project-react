@@ -1,0 +1,52 @@
+@import '~antd/dist/antd.css';
+
+html{
+    height:100%;
+}
+body{
+    min-height:100%;
+}
+.pageChange {
+    width: 100%;
+    padding: 10px 20px;
+    position: relative;
+}
+
+@media (max-width: 600px){
+    main {
+        padding: 5px 0px;
+    }
+}
+
+.itemStyle {
+    min-width: 234px;
+    width: 50%;
+    border: 0.5px solid rgb(0,0,0,0.5);
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+}
+
+.addForm p {
+    padding-top: 10px;
+}
+
+.imgUpload {
+    margin: 10px 0;
+    padding: 5px;
+    border: 0.4px solid rgb(0,0,0,0.25);
+    width: 67px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.imgUpload:hover {
+    color: rgba(19, 80, 192, 0.5);
+}
+
+.backPage {
+    margin-bottom: 10px;
+}

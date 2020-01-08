@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import {Typography, Button, Input} from 'antd'
 import api from './api'
-
+const { Title } = Typography
 
 function DeskItem({desk, onDelete}) {
   var [deskInfo, setDeskInfo] = useState(desk)
@@ -35,9 +36,9 @@ function DeskItem({desk, onDelete}) {
     if (isModify) {
       return (
         <div>
-          <form>
-            名称：<input type="text" onChange={change} defaultValue={deskInfo.name} name="name"/><br/>
-            人数：<input type="text" onChange={change} defaultValue={deskInfo.capacity} name="capacity"/><br/>
+          <form className="addForm">
+            名称：<p><Input type="text" onChange={change} defaultValue={deskInfo.name} name="name"/></p>
+            人数：<p><Input type="text" onChange={change} defaultValue={deskInfo.capacity} name="capacity"/></p>
           </form>
         </div>
       )
@@ -53,13 +54,13 @@ function DeskItem({desk, onDelete}) {
 
 
   return (
-    <div>
+    <div className="itemStyle">
       <h3>{deskInfo.name}</h3>
       {getContent()}
       <div>
-        <button onClick={() => setIsModify(true)}>修改</button>
-        <button onClick={save}>保存</button>
-        <button onClick={deletedesk}>删除</button>
+        <Button onClick={() => setIsModify(true)}>修改</Button>
+        <Button onClick={save}>保存</Button>
+        <Button onClick={deletedesk}>删除</Button>
       </div>
     </div>
   )
@@ -83,8 +84,9 @@ export default function DeskManage(props) {
 
   return (
     <div>
-      <Link to="add-desk">添加桌面</Link>
-      <div>
+      <Title level={2}> 桌面管理</Title>
+      <Link to="add-desk" style={{fontSize:20}}>添加桌面</Link>
+      <div >
         {
           desks.map(desk => {
             return <DeskItem onDelete={onDelete} key={desk.id} desk={desk}/>

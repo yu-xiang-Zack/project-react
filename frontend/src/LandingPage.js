@@ -2,6 +2,7 @@ import React, { Suspense, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import createFetcher from './create-fetcher'
 import api from './api'
+import {Spin} from 'antd'
 import './LandingPage.css'
 
 var fetcher = createFetcher((did) => {
@@ -33,7 +34,7 @@ export default withRouter(function(props) {
 
   return (
     <div className="LandingPage">
-      <Suspense fallback={<div>正在加载桌面信息...</div>}>
+      <Suspense fallback={<div>正在加载桌面信息...<Spin /></div>}>
         <DeskInfo did={did} />
       </Suspense>
       <h2>请选择人数</h2>
