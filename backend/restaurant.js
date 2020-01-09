@@ -136,7 +136,7 @@ app.post('/restaurant/:rid/desk/:did/order', async (req, res, next) => {
   var customCount = req.body.customCount
   var details = JSON.stringify(req.body.foods)
 
-  var status = 'pending'// confirmed/completed
+  var status = '订单等待确认中...'// confirmed/completed
   var timestamp = new Date().toISOString()
 
   await db.run(`

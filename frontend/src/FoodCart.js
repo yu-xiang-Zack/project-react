@@ -1,23 +1,12 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import api from './api'
 import { produce } from 'immer'
 import history from './history'
 import io from 'socket.io-client'
+import { Button} from 'antd'
 
 
-var imgStyle = {
-  float: 'left',
-  width: '100px',
-  height: '100px',
-  border: '2px solid',
-}
-
-var menuItemStyle = {
-  border: '2px solid',
-  padding: '5px',
-  margin: '5px',
-}
 
 function MenuItem({food, onUpdate, amount}) {
   // var [count, setCount] = useState(amount)
@@ -36,17 +25,17 @@ function MenuItem({food, onUpdate, amount}) {
   }
 
   return (
-    <div style={menuItemStyle}>
-      <h3>{food.name}</h3>
-      <div>
-        <img style={imgStyle} src={'/upload/' + food.img} alt={food.name}/>
-        <p>{food.desc}</p>
-        <p>{food.price}</p>
+    <div className="menuItemStyle">
+      <h3>菜品名：{food.name}</h3>
+      <div className="menuItemDesc">
+        <img className="imgStyle" src={'/upload/' + food.img} alt={food.name}/><br/>
+        <p>菜品描述：{food.desc}</p>
+        <p>菜品价格：{food.price}</p>
       </div>
       <div>
-        <button onClick={dec}>-</button>
-        <span>{amount}</span>
-        <button onClick={inc}>+</button>
+        <Button onClick={dec}>-</Button>
+        <span>&nbsp;{amount}&nbsp;</span>
+        <Button onClick={inc}>+</Button>
       </div>
     </div>
   )
@@ -68,33 +57,41 @@ function calcTotalPrice(cartAry) {
   }, 0)
 }
 
+
+
 /**
  * foods：购物车信息
  * onUpdate事件：用户修改菜品数量时触发
  * onPlaceOrder事件：用户点击下单时触发
  */
 function CartStatus(props) {
-  var [expand, setExpand] = useState(false)
-
+  // var [expand, setExpand] = useState(false)
   var totalPrice = calcTotalPrice(props.foods)
-
+  // var display = expand ? "block" : "none";
   return (
-    <div style={{
-      position: 'fixed',
-      height: '50px',
-      bottom: '5px',
-      border: '2px solid',
-      left: '5px',
-      right: '5px',
-      backgroundColor: 'pink',
-    }}>
-      {expand ?
-        <button onClick={() => setExpand(false)}>收起</button> :
-        <button onClick={() => setExpand(true)}>展开</button>
+    <div className="foodCart">
+      {/* {
+        <div className="smallCart" style={{display}}> 
+          {
+          props.foods.map((foodInfo, idx) => {
+            return (
+              <p key={idx}>
+                <strong>{foodInfo.food.name}</strong>
+                -
+                <strong>{foodInfo.amount}份</strong>
+              </p>
+            )
+          })
+        } 
+        </div>
       }
+      {expand ?
+        <Button onClick={() => setExpand(false)}>收起</Button> :
+        <Button onClick={() => setExpand(true)}>展开</Button>
+      } */}
       <strong>总价：{totalPrice}</strong>
 
-      <button onClick={() => props.onPlaceOrder()}>下单</button>
+      <Button onClick={() => props.onPlaceOrder()}>下单</Button>
     </div>
   )
 }
@@ -222,7 +219,6 @@ export default class FoodCart extends Component {
         <div>
           {
             this.state.foodMenu.map(food => {
-
               var currentAmount = 0
               var currFoodCartItem = this.state.cart.find(cartItem => cartItem.food.id === food.id)
               if (currFoodCartItem) {

@@ -38,10 +38,26 @@ function OrderItem({order, onDelete}) {
       onDelete(order)
     })
   }
+  console.log(orderInfo)
 
   return (
     <div className="itemStyle">
       <p>餐桌号：{orderInfo.deskName}</p>
+      {
+        order.details.map((orderInfo, idx) => {
+          return (
+            <p key={idx}>
+              <strong>{orderInfo.food.name}</strong>
+              -
+              <strong>{orderInfo.amount}份</strong>
+              -
+              <strong>{orderInfo.food.price}</strong>
+              -
+              <strong>{orderInfo.food.desc}</strong>
+            </p>
+          )
+        })
+      }
       <p>总价格：{orderInfo.totalPrice}元</p>
       <p>用餐人数：{orderInfo.customCount}人</p>
       <p>订单状态：{orderInfo.status}</p>

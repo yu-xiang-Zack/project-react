@@ -15,7 +15,7 @@ const {Title} = Typography;
 
 function RestaurantInfo() {
   var info = userInfoFetcher.read().data;
-  return <Title level={1}> 欢迎光临：{info.title}</Title>;
+  return <Title level={2}>{info.title} 餐厅管理系统</Title>;
 }
 
 export default withRouter(function(props) {
@@ -32,7 +32,6 @@ export default withRouter(function(props) {
           <Menu
             theme="dark"
             mode="horizontal"
-            defaultActives={["order"]}
             style={{ lineHeight: "64px"}}
           >
             <Menu.Item key="order">

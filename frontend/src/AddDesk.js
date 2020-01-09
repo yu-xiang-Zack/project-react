@@ -35,11 +35,11 @@ function AddDesk(props) {
       <div className="backPage">
         <Button onClick={backPage}>返回</Button>
       </div>
-      <h2>添加菜品</h2>
+      <h2>添加桌面</h2>
       <form onSubmit={submit} className="addForm">
-        名称：<p><Input type="text" onChange={change} defaultValue={deskInfo.name} name="name"/><br/></p>
-        数量：<p><Input type="text" onChange={change} defaultValue={deskInfo.capacity} name="capacity"/><br/></p>
-        <Button>提交</Button>
+        名称：<p><Input type="text" onChange={change} defaultValue={deskInfo.name} placeholder="请输入桌面号" name="name"/><br/></p>
+        数量：<p><Input type="text" onChange={change} defaultValue={deskInfo.capacity} placeholder="Input a number" name="capacity"/><br/></p>
+        <Button type="primary" htmlType="submit">提交</Button>
       </form>
     </div>
   )

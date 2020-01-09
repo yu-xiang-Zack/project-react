@@ -19,8 +19,8 @@ body{
 }
 
 .itemStyle {
-    min-width: 234px;
-    width: 50%;
+    min-width: 230px;
+    width: 40%;
     border: 0.5px solid rgb(0,0,0,0.5);
     border-radius: 5px;
     padding: 20px;
@@ -41,6 +41,7 @@ body{
     width: 67px;
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
 }
 
 .imgUpload:hover {

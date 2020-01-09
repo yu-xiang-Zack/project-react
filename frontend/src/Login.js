@@ -55,7 +55,7 @@ export default withRouter(function(props){
         </Form.Item>
         <Form.Item>
             <input
-              placeholder="验证码（区分大小写）"
+              placeholder="请输入验证码（区分大小写）"
               type="text"
               ref={captchaRef} 
               onFocus={changCaptcha}

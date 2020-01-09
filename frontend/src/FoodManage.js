@@ -58,6 +58,19 @@ function FoodItem({food, onDelete}) {
       ...foodProps,
       img: e.target.files[0],
     })
+    var preview = document.querySelector('img');
+    var file = e.target.files[0];
+    var reader  = new FileReader();
+    
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      preview.style.visibility="hidden"
+    }
+    
+    reader.onloadend = () => {
+      preview.src = reader.result;
+    }
   }
 
   function priceChange(e) {
@@ -106,6 +119,7 @@ function FoodItem({food, onDelete}) {
                 <input hidden type="file" onChange={imgChange} name="img" id="img" />
               </label>
             </div>
+            <img src="" alt= "" height="50" style={{marginBottom:20}} /><br/>
           </form>
         </div>
       )
@@ -124,12 +138,13 @@ function FoodItem({food, onDelete}) {
 
   return (
     <div className="itemStyle">
-      <h3>{foodInfo.name}</h3>
+      <h3>菜品名：{foodInfo.name}</h3>
       {getContent()}
       <div>
         <Button onClick={() => setIsModify(true)}>修改</Button>
 
         <Button onClick={save}>保存</Button>
+        <br />
 
         {foodInfo.status === 'on' &&
           <Button onClick={setOffline}>下架</Button>
