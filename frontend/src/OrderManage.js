@@ -43,17 +43,18 @@ function OrderItem({order, onDelete}) {
   return (
     <div className="itemStyle">
       <p>餐桌号：{orderInfo.deskName}</p>
+      <strong> 菜品详情：</strong>
       {
         order.details.map((orderInfo, idx) => {
           return (
             <p key={idx}>
-              <strong>{orderInfo.food.name}</strong>
+              <span>{orderInfo.food.name}</span>
               -
-              <strong>{orderInfo.amount}份</strong>
+              <span>{orderInfo.amount}份</span>
               -
-              <strong>{orderInfo.food.price}</strong>
+              <span>{orderInfo.food.price}元/份</span>
               -
-              <strong>{orderInfo.food.desc}</strong>
+              <span>{orderInfo.food.category}</span>
             </p>
           )
         })

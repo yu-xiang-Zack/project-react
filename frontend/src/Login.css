@@ -6,9 +6,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url("/../login.jpg")
-    fixed no-repeat;
-  background-size: cover;
+  background-color:	#f9f9f9;
+
 }
 
 .login-form {
@@ -20,12 +19,16 @@
   position: relative;
   z-index: 100;
   overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 80px 30px;
+  background-color: #ffffff;
 }
 
 .login-form h2 {
   font-size: 28px;
   font-weight: 400;
-  color: #ffffff;
+  color: #000;
 }
 
 @media (max-width: 600px){
@@ -77,8 +80,8 @@
   display: none;
 }
 
-.login-form span {
-  color: #ffffff;
+.login-form .regist {
+  color: #000;
 }
 
 .login-form input::selection {

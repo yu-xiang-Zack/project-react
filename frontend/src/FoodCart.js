@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import PropTypes from 'prop-types'
 import api from './api'
 import { produce } from 'immer'
 import history from './history'
 import io from 'socket.io-client'
-import { Button} from 'antd'
+import { Button, Icon} from 'antd'
 
 
 
@@ -65,33 +65,40 @@ function calcTotalPrice(cartAry) {
  * onPlaceOrder事件：用户点击下单时触发
  */
 function CartStatus(props) {
-  // var [expand, setExpand] = useState(false)
+  var [expand, setExpand] = useState(false)
   var totalPrice = calcTotalPrice(props.foods)
-  // var display = expand ? "block" : "none";
+  var display = expand ? "block" : "none";
   return (
     <div className="foodCart">
-      {/* {
-        <div className="smallCart" style={{display}}> 
-          {
-          props.foods.map((foodInfo, idx) => {
-            return (
-              <p key={idx}>
-                <strong>{foodInfo.food.name}</strong>
-                -
-                <strong>{foodInfo.amount}份</strong>
-              </p>
-            )
-          })
-        } 
-        </div>
-      }
+      <div className="cart-order">
+        {
+          <div className="shopping-cart" style={{display}}>
+            <div className="cart-outer">
+              {
+                props.foods.map((foodInfo, idx) => {
+                  return (
+                     
+                    <p key={idx}>
+                      <Icon type="close" className="close" onClick={() => setExpand(false)}/>
+                      <strong>{foodInfo.food.name}</strong>
+                      ---
+                      <strong>{foodInfo.food.price}元</strong>×
+                      <strong>{foodInfo.amount}</strong>
+                    </p>
+                  )
+                })
+              }
+            </div>
+          </div>
+        }
+      
       {expand ?
         <Button onClick={() => setExpand(false)}>收起</Button> :
         <Button onClick={() => setExpand(true)}>展开</Button>
-      } */}
-      <strong>总价：{totalPrice}</strong>
-
-      <Button onClick={() => props.onPlaceOrder()}>下单</Button>
+      }
+      <strong style={{padding:"0 10px"}}>总价：{totalPrice}</strong>
+      <Button type="primary" onClick={() => props.onPlaceOrder()}>下单</Button>
+      </div>
     </div>
   )
 }

@@ -7,14 +7,16 @@ export default withRouter(function(props){
   var nameRef = useRef()
   var passwordRef = useRef()
   var titleRef = useRef()
+  var emailRef = useRef()
 
   async function register(e) {
     e.preventDefault()
     var name = nameRef.current.value
     var password = passwordRef.current.value
     var title = titleRef.current.value
+    var email = emailRef.current.value
     try {
-      await api.post('/register', {name, password, title})
+      await api.post('/register', {name, password, email, title})
       props.history.push(`/register/regist-success`)
     } catch(e) {
       alert(e.response.data.msg)
@@ -44,6 +46,13 @@ export default withRouter(function(props){
               type="password"
               placeholder="请输入密码"
               ref={passwordRef}
+            />
+        </Form.Item>
+        <Form.Item>
+            <input
+              type="email"
+              placeholder="请输入邮箱"
+              ref={emailRef}
             />
         </Form.Item>
         <Form.Item>

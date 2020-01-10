@@ -66,7 +66,7 @@ export default withRouter(function(props){
           <Button type="primary" htmlType="submit" className="login-form-button">
             登录
           </Button>
-          <span>还未注册？</span><Link to="/register">现在注册</Link>
+          <span className="regist">还未注册？</span><Link to="/register">现在注册</Link>
         </Form.Item>
       </Form>
     </div>
