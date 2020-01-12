@@ -25,12 +25,12 @@ frontend为点餐系统前端项目，前端框架使用了React，路由系统�
 
 ```
 
-create-react-app demo
+$ create-react-app project    # 生成项目
 
-cd demo   
+$ cd project                  # 进入到 project 目录
 
-npm install
+$ npm install                 # 使用 npm 安装项目的依赖
 
-npm start 
+$ npm start                   # 启动项目
 
 ```
