@@ -1,7 +1,7 @@
 # 点餐系统
 
-一个 React.js 点餐系统 webapp 
-> [**项目演示地址**（管理员体验账号密码均为a）]()
+一个 React.js 点餐系统 
+> [**项目演示地址**（管理员体验账号密码均为a）](http://restaurant.xiangyu.world/#/login)
 ### 技术栈
 - creat-react-app
 - React

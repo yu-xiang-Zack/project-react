@@ -38,7 +38,7 @@ function AddDesk(props) {
       <h2>添加桌面</h2>
       <form onSubmit={submit} className="addForm">
         名称：<p><Input type="text" onChange={change} defaultValue={deskInfo.name} placeholder="请输入桌面号" name="name"/><br/></p>
-        数量：<p><Input type="text" onChange={change} defaultValue={deskInfo.capacity} placeholder="Input a number" name="capacity"/><br/></p>
+        数量：<p><Input type="text" onChange={change} defaultValue={deskInfo.capacity} placeholder="请输入人数" name="capacity"/><br/></p>
         <Button type="primary" htmlType="submit">提交</Button>
       </form>
     </div>

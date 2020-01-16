@@ -1,6 +1,6 @@
 # 扫码点餐 API 文档
 
-所有 api 以 http://10.1.1.1:800/api 为前缀
+所有 api 以 http://localhost:800/api 为前缀
 
 ## 登陆相关
 
