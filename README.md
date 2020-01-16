@@ -12,7 +12,6 @@
 - SQLite
 - socket.io
 - antd
-- eslint
 ## 项目简介
 backend文件夹为点餐系统后端项目，后端框架使用了Express,数据库使用了SQLite。需自行安装。  
 配置文件为package.json  
