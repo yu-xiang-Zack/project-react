@@ -13,7 +13,6 @@ var fetcher = createFetcher((did) => {
 
 function DeskInfo({did}) {
   var info = fetcher.read(did).data
-  console.log(info)
   return (
     <div className="restaurantTitle">
       <span>欢迎光临{info.title}</span>

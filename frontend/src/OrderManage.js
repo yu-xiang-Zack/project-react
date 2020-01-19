@@ -10,7 +10,6 @@ const { Title } = Typography
 function OrderItem({order, onDelete}) {
 
   var [orderInfo, setOrder] = useState(order)
-  console.log(order)
   function setConfirm() {
     api.put(`/restaurant/${order.rid}/order/${order.id}/status`, {
       status: '已确认'
@@ -38,7 +37,6 @@ function OrderItem({order, onDelete}) {
       onDelete(order)
     })
   }
-  console.log(orderInfo)
 
   return (
     <div className="itemStyle">

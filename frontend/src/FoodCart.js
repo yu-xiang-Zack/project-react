@@ -123,7 +123,6 @@ export default class FoodCart extends Component {
         deskInfo: val.data,
       })
     })
-    console.log(params)
     api.get('/menu/restaurant/' + params.rid).then(res => {
       this.setState({
         foodMenu: res.data,
@@ -139,7 +138,6 @@ export default class FoodCart extends Component {
     })
 
     this.socket.on('connect', () => {
-      console.log('connect on')
       this.socket.emit('join desk', 'desk:' + params.did)
     })
 
@@ -147,7 +145,6 @@ export default class FoodCart extends Component {
 
     // 后端发回此桌面已点菜单
     this.socket.on('cart food', info => {
-      console.log('cart init', info)
       this.setState(produce(state => {
         state.cart.push(...info)
       }))
@@ -155,8 +152,6 @@ export default class FoodCart extends Component {
 
     // 来自同桌其它用户新增的菜单
     this.socket.on('new food', info => {
-
-      console.log(info)
       this.foodChange(info.food, info.amount)
     })
 
@@ -198,7 +193,6 @@ export default class FoodCart extends Component {
   }
 
   placeOrder = () => {
-    console.log('下单')
     var params = this.props.match.params
     // {
     //   deskName:
@@ -206,7 +200,6 @@ export default class FoodCart extends Component {
     //   totalPrice:
     //   foods: [{id, amount}, {}, {}]
     // }
-    console.log(params)
     api.post(`/restaurant/${params.rid}/desk/${params.did}/order`, {
       deskName: this.state.deskInfo.name,
       customCount: params.count,

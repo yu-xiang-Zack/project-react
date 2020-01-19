@@ -5,9 +5,8 @@
 ### 技术栈
 - creat-react-app
 - React
-- react-router-dom
+- React-router
 - axios
-- socket.io-client
 - Express
 - SQLite
 - socket.io
