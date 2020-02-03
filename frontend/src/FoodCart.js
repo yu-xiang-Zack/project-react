@@ -9,18 +9,15 @@ import { Button, Icon} from 'antd'
 
 
 function MenuItem({food, onUpdate, amount}) {
-  // var [count, setCount] = useState(amount)
 
   function dec() {
     if (amount === 0) {
       return
     }
-    // setCount(count - 1)
     onUpdate(food, amount - 1)
   }
 
   function inc() {
-    // setCount(count + 1)
     onUpdate(food, amount + 1)
   }
 

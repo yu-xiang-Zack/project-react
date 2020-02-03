@@ -14,10 +14,10 @@ import RegistSuccess from './RegistSuccess';
 // 用户侧
 // 扫码进入的页面，选择人数：/landing/restaurant/:rid/desk/:did
 // 点餐页面：               /restaurant/:rid/desk/:did
-// 点餐成功页面：           /
+// 点餐成功页面：           /ordersuccess
 
 // 商户侧
-// 登陆
+// 登陆          /login
 // 订单管理：    /manage/order
 // 订单详情：    /manage/order/35
 // 菜品管理：    /manage/food
